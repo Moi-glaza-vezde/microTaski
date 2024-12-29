@@ -3,6 +3,7 @@ import './App.css';
 import { Header } from './site/Header';
 import { Body } from './site/Body';
 import { Footer } from './site/Footer';
+import { Money } from './site/Money';
 
 function App() {
    let [a, setA] = useState(1);
@@ -21,6 +22,7 @@ function App() {
          <button onClick={onClickReset}>0</button>
          <Header title={'NEW HEADER'} />
          <Body title={'NEW BODY'} />
+         <Money />
          <Footer title={'NEW FOOTER'} />
       </>
    );
