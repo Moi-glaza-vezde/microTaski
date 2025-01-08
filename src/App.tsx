@@ -9,26 +9,33 @@ import { Input } from './components/Input';
 import { Btn } from './components/Btn';
 
 function App() {
-   let [message, setMessage] = useState([
+   const [message, setMessage] = useState([
       { message: 'message1' },
       { message: 'message2' },
       { message: 'message3' },
+      { message: 'message4' },
+      { message: 'message5' },
    ]);
+
    let [title, setTitle] = useState('');
+
    console.log(title);
+
    const addMessage = (title: string) => {
-      let newMessage = { message: title };
-      setMessage([newMessage, ...message]);
+      let newMessages = { message: title };
+      setMessage([newMessages, ...message]);
    };
 
-   const onClickBtnHandler = () => {
+   const onClickButtonHandler = () => {
       addMessage(title);
       setTitle('');
    };
+
    return (
       <div className="App">
+         {/* <FullInput addMessage={addMessage} /> */}
          <Input setTitle={setTitle} title={title} />
-         <Btn title={title} name="+" callBack={onClickBtnHandler} />
+         <Btn name={'+'} callBack={onClickButtonHandler} />
          {message.map((el, index) => {
             return <div key={index}>{el.message}</div>;
          })}
