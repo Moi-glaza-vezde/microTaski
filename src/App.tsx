@@ -1,114 +1,58 @@
-import React, { useState } from 'react';
-import './App.css';
-import { Todolist } from './Todolist';
-import { v1 } from 'uuid';
+import React from 'react';
+import {PageOne} from './components/pages/PageOne';
+import {PageTwo} from './components/pages/PageTwo';
+import {PageThree} from './components/pages/PageThree';
+import {Error404} from './components/pages/Error404';
+import {Navigate, NavLink, Route, Routes} from 'react-router-dom';
+import {S} from './components/pages/_styles'
 
-export type todolistsType = {
-   id: string;
-   title: string;
-   filter: FilterValuesType;
-};
-export type FilterValuesType = 'all' | 'active' | 'completed';
+
+
+const PATH = {
+    PAGE1: '/page1',
+    PAGE2: '/page2',
+    PAGE3: '/page3',
+    ERROR:'/error404'
+}as const
+
 
 function App() {
-   // let [tasks, setTasks] = useState([
-   //     {id: v1(), title: "HTML&CSS", isDone: true},
-   //     {id: v1(), title: "JS", isDone: true},
-   //     {id: v1(), title: "ReactJS", isDone: false},
-   //     {id: v1(), title: "Rest API", isDone: false},
-   //     {id: v1(), title: "GraphQL", isDone: false},
-   // ]);
-   // let [filter, setFilter] = useState<FilterValuesType>("all");
 
-   let todolistID1 = v1();
-   let todolistID2 = v1();
+    return (
+        <div>
+            <S.Header><h1>HEADER</h1></S.Header>
+            <S.Body>
+                <S.Nav>
 
-   let [todolists, setTodolists] = useState<Array<todolistsType>>([
-      { id: todolistID1, title: 'What to learn', filter: 'all' },
-      { id: todolistID2, title: 'What to buy', filter: 'all' },
-   ]);
+                    {/*<div><NavLink className={({isActive}) => isActive ? s.activeNavLink : s.navLink}*/}
+                    {/*              to={'/page1'}>page1</NavLink></div>*/}
+                    {/*<div><NavLink className={({isActive}) => isActive ? s.activeNavLink : s.navLink}*/}
+                    {/*              to={'/page2'}>page2</NavLink></div>*/}
+                    {/*<div><NavLink className={({isActive}) => isActive ? s.activeNavLink : s.navLink}*/}
+                    {/*              to={'/page3'}>page3</NavLink></div>*/}
 
-   let [tasks, setTasks] = useState({
-      [todolistID1]: [
-         { id: v1(), title: 'HTML&CSS', isDone: true },
-         { id: v1(), title: 'JS', isDone: true },
-         { id: v1(), title: 'ReactJS', isDone: false },
-         { id: v1(), title: 'Rest API', isDone: false },
-         { id: v1(), title: 'GraphQL', isDone: false },
-      ],
-      [todolistID2]: [
-         { id: v1(), title: 'Milk', isDone: true },
-         { id: v1(), title: 'Bread', isDone: true },
-         { id: v1(), title: 'Tomato', isDone: false },
-         { id: v1(), title: 'Whoter', isDone: false },
-         { id: v1(), title: 'Chocolate', isDone: false },
-      ],
-   });
 
-   function removeTask(todoListId: string, id: string) {
-      setTasks({ ...tasks, [todoListId]: tasks[todoListId].filter((t) => t.id !== id) });
-   }
+                    <S.NavWrapper><NavLink to={PATH.PAGE1}>page1</NavLink></S.NavWrapper>
+                    <S.NavWrapper><NavLink to={PATH.PAGE2}>page2</NavLink></S.NavWrapper>
+                    <S.NavWrapper><NavLink to={PATH.PAGE3}>page3</NavLink></S.NavWrapper>
 
-   function addTask(todoListId: string, title: string) {
-      let newTask = { id: v1(), title: title, isDone: false };
+                </S.Nav>
+                <S.Content>
+                    <Routes>
+                        <Route path="/" element={<Navigate to="/page1"/>}/>
+                        <Route path={PATH.PAGE1} element={<PageOne/>}/>
+                        <Route path={PATH.PAGE2} element={<PageTwo/>}/>
+                        <Route path={PATH.PAGE3} element={<PageThree/>}/>
+                        <Route path="*" element={<Error404/>}/>
+                    </Routes>
 
-      setTasks({ ...tasks, [todoListId]: [newTask, ...tasks[todoListId]] });
-   }
-
-   function changeStatus(todoListId: string, taskId: string, isDone: boolean) {
-      // setTasks({
-      setTasks({
-         ...tasks,
-         [todoListId]: tasks[todoListId].map((t) =>
-            t.id === taskId ? { ...t, isDone: isDone } : t
-         ),
-      });
-
-      //    ...tasks,
-      //    [todoListId]: tasks[todoListId].map((t) => {
-      //       return { ...tasks };
-      //    }),
-      // });
-      // setTasks();
-      // let task = tasks.find((t) => t.id === taskId);
-      // if (task) {
-      //    task.isDone = isDone;
-      // }
-      // setTasks([...tasks]);
-   }
-
-   // let tasksForTodolist = tasks;
-
-   function changeFilter(value: FilterValuesType, todoListId: string) {
-      setTodolists(todolists.map((t) => (t.id === todoListId ? { ...t, filter: value } : t)));
-   }
-
-   return (
-      <div className="App">
-         {todolists.map((t) => {
-            let tasksForTodolist = tasks[t.id];
-            if (t.filter === 'active') {
-               tasksForTodolist = tasks[t.id].filter((t) => t.isDone === false);
-            }
-            if (t.filter === 'completed') {
-               tasksForTodolist = tasks[t.id].filter((t) => t.isDone === true);
-            }
-            return (
-               <Todolist
-                  todoListId={t.id}
-                  key={t.id}
-                  title={t.title}
-                  tasks={tasksForTodolist}
-                  removeTask={removeTask}
-                  changeFilter={changeFilter}
-                  addTask={addTask}
-                  changeTaskStatus={changeStatus}
-                  filter={t.filter}
-               />
-            );
-         })}
-      </div>
-   );
+                    {/*<Error404/>*/}
+                </S.Content>
+            </S.Body>
+            <S.Footer>abibas 2023</S.Footer>
+        </div>
+    );
 }
+
 
 export default App;
