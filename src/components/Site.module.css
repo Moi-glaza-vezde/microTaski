@@ -35,14 +35,12 @@
     color: white;
 }
 
-
 .navLink {
     text-decoration: none;
     color: #282c34;
 }
 
-
-.activeNavLink {
+.active {
     color: #7fb8f1;
     text-decoration: underline;
 }
