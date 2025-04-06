@@ -1,62 +1,64 @@
-import {useEffect, useState} from 'react';
-import {useSearchParams} from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import styles from './Prices.module.css';
 
 type Props = {};
 export const Prices = (props: Props) => {
     const sneakers = [
         {
-            manufacturer: 'Adidas',
-            name: 'Adidas Yeezy Boost 350',
+            manufacturer: "Adidas",
+            name: "Adidas Yeezy Boost 350",
             price: 300,
             onSale: false
         },
         {
-            manufacturer: 'Adidas',
-            name: 'Adidas Ultraboost 21',
+            manufacturer: "Adidas",
+            name: "Adidas Ultraboost 21",
             price: 180,
             onSale: true
         },
         {
-            manufacturer: 'Puma',
-            name: 'Puma Suede Classic',
+            manufacturer: "Puma",
+            name: "Puma Suede Classic",
             price: 65,
             onSale: true
         },
         {
-            manufacturer: 'Puma',
-            name: 'Puma RS-X',
+            manufacturer: "Puma",
+            name: "Puma RS-X",
             price: 110,
             onSale: false
         },
         {
-            manufacturer: 'Abibas',
-            name: 'Abibas Alphabounce',
+            manufacturer: "Abibas",
+            name: "Abibas Alphabounce",
             price: 60,
             onSale: true
         }
     ];
 
+    let [searchParams, setSearchParams] = useSearchParams();
     const [filteredSneakers, setFilteredSneakers] = useState(sneakers);
-    const [searchParams, setSearchParams] = useSearchParams();
+
+    console.log(searchParams.get('onSale'))
+
+
+     useEffect(() => {
+        if (searchParams.get('onSale') === 'true') {
+            setFilteredSneakers(sneakers.filter(sneaker => sneaker.onSale));
+        } else {
+            setFilteredSneakers(sneakers);
+        }
+     }, [searchParams]);
 
     function handleOnSale() {
-        setSearchParams({onSale: 'true'})
+       setSearchParams({ onSale: 'true' });
     }
 
     function handleReset() {
-        setSearchParams({})
-
+       setSearchParams({});
     }
 
-    useEffect(() => {
-        if (searchParams.get('onSale') === 'true') {
-            setFilteredSneakers(sneakers.filter((s) => s.onSale))
-        } else {
-            setFilteredSneakers(sneakers)
-
-        }
-    }, [searchParams]);
 
     return (
         <div>
